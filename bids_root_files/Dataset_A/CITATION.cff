@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite the associated Scientific Data Descriptor and this dataset."
+title: "Motor BCI Dataset - Dataset A (Calibration)"
+type: dataset
+license: CC-BY-4.0
+authors:
+  - family-names: "Quiroga-Forero"
+    given-names: "Alejandro"
+    affiliation: "Centro de Ingeniería en Rehabilitación e Investigación Neuromusculares y Sensoriales (CIRINS), Facultad de Ingeniería, Universidad Nacional de Entre Ríos, Oro Verde, Entre Ríos, Argentina; Instituto de Investigación en Señales, Sistemas e Inteligencia Computacional, sinc(i), FICH-UNL/CONICET, Santa Fe, Argentina"
+  - family-names: "Rufiner"
+    given-names: "H. Leonardo"
+    affiliation: "Laboratorio de Cibernética, Facultad de Ingeniería, Universidad Nacional de Entre Ríos, Oro Verde, Entre Ríos, Argentina; Instituto de Investigación en Señales, Sistemas e Inteligencia Computacional, sinc(i), FICH-UNL/CONICET, Santa Fe, Argentina"
+  - family-names: "Acevedo"
+    given-names: "Ruben"
+    affiliation: "Centro de Ingeniería en Rehabilitación e Investigación Neuromusculares y Sensoriales (CIRINS), Facultad de Ingeniería, Universidad Nacional de Entre Ríos, Oro Verde, Entre Ríos, Argentina"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.17980608"
+    description: "Earlier release of the same recordings (FIF format, December 2025)"
+  - type: url
+    value: "https://clinicaltrials.gov/study/NCT06861517"
+    description: "ClinicalTrials.gov registration of the study (NCT06861517)"

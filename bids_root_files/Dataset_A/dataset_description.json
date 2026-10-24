@@ -1,0 +1,34 @@
+{
+    "Name": "Motor BCI Dataset - Dataset A (Calibration)",
+    "BIDSVersion": "1.10.0",
+    "DatasetType": "raw",
+    "EthicsApprovals": [
+        "Approved by the Central Bioethics Committee of the Province of Entre Ríos, Argentina. Listed in the Argentine National Registry of Health Research under number IS004678. Registered at ClinicalTrials.gov under identifier NCT06861517."
+    ],
+    "Funding": [
+        "Universidad Nacional de Entre Ríos (UNER), PID-UNER 6235",
+        "Agencia Nacional de Promoción Científica y Tecnológica (ANPCyT), PICT 2017-4596"
+    ],
+    "GeneratedBy": [
+        {
+            "Name": "Manual BIDS conversion",
+            "Description": "Raw per-run CSV exports from OpenViBE/custom Python acquisition software were converted to BrainVision format and reorganized into BIDS. See ../code/ for the conversion script and ../sourcedata/ for the original CSV exports (shared across Dataset_A, Dataset_B and Dataset_C)."
+        }
+    ],
+    "RelatedDatasets": [
+        {
+            "URI": "../Dataset_B",
+            "Description": "Same participants, open-loop task (Dataset B)"
+        },
+        {
+            "URI": "../Dataset_C",
+            "Description": "Same participants, closed-loop task (Dataset C)"
+        }
+    ],
+    "SourceDatasets": [
+        {
+            "URI": "../sourcedata",
+            "Description": "Original per-run CSV exports (OpenViBE CSV File Writer format) from which every recording was converted by ../code/csv_to_bids.py; shared across Dataset_A, Dataset_B and Dataset_C."
+        }
+    ]
+}

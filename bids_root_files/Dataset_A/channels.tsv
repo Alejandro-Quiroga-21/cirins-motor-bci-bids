@@ -1,0 +1,35 @@
+name	type	units	sampling_frequency	description	status	status_description
+Fp1	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+Fpz	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+Fp2	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+F7	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+F3	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+Fz	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+F4	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+F8	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+FC5	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+FC1	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+FC2	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+FC6	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+M1	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+T7	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+C3	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+Cz	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+C4	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+T8	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+M2	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+CP5	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+CP1	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+CP2	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+CP6	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+P7	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+P3	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+Pz	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+P4	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+P8	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+POz	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+O1	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+Oz	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+O2	EEG	uV	500	Scalp EEG electrode, extended 10-10 system (reference CPz, ground AFz)	good	n/a
+TRIG	TRIG	n/a	500	Raw TTL trigger code from the screen-based event-synchronisation system; its value at each cue onset is the 'value' column of _events.tsv	good	n/a
+STATUS	MISC	n/a	500	Amplifier running sample counter: increases by exactly 1 per sample and continues across consecutive runs until the amplifier is restarted, so it places runs recorded without a restart on a common time axis (acquisition order, pauses)	good	n/a

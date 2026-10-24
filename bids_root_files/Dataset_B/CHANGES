@@ -1,0 +1,178 @@
+1.0.0 2026-09-14
+    - Initial BIDS conversion from the original per-run CSV exports (see ../sourcedata/).
+    - One participant was recorded twice under two source IDs (S03 and S31) due to an
+      acquisition error: the first recording (source S03) had the open-loop and
+      closed-loop movement cues mislabelled to the non-dominant side. The corrected,
+      internally-consistent recording (source S31) was kept and relabelled as sub-03;
+      the faulty source-S03 recording was excluded. All other 31 - 1 = 30 participants
+      map one-to-one to their original source IDs (sub-XX = source SXX).
+    - This dataset (Dataset B) contains only the open-loop task; see Dataset_A
+      (calibration) and Dataset_C (closed-loop) for the same participants' other tasks.
+
+1.1.0 2026-09-16
+    - Documentation-only release: no data files changed. Technical validation of the
+      released _events.tsv files identified 17 events (0.098% of 17,400 events across
+      the three datasets, in 11 of 600 recordings) whose raw TTL 'value' deviates from
+      the empirically-dominant code for their (trial_type, preceding trial_type)
+      condition, generally co-occurring with an atypical cue duration. Two mechanisms
+      were identified by inspection: (1) in Dataset_A, an isolated spurious
+      short-duration re-trigger immediately following a genuine movement cue, whose
+      code and that of the following rest/movement cue are affected until the next
+      true transition resynchronises them; (2) in Dataset_B/C, an occasional missed
+      first transition of the run, producing one elongated first-movement-cue event
+      that still carries the preceding baseline rest's code. Both are attributed to the
+      screen-based event-synchronisation system described in the associated
+      publication's Methods, not to the EEG acquisition itself; 'trial_type' (read from
+      the acquisition software's own event label, independent of the TRIG channel) is
+      unaffected. Values were left untouched, as befits raw TTL data - see
+      ../derivatives/validation/flagged_events.tsv for the itemised list (dataset,
+      subject, task, run, event index, duration vs. the condition's typical duration)
+      and ../code/validation/ for the scripts that produced it.
+
+2.0.0 2026-09-24
+    - Amplitude-scale correction: every EEG sample value in every _eeg.eeg file across
+      the three sibling datasets was rescaled. The previous release (1.1.0) inherited
+      an unchanged assumption from 1.0.0 that the acquisition software's per-run CSV
+      exports (see ../sourcedata/) reported scalp-channel amplitude in millivolts, and
+      converted to volts for BIDS storage accordingly. Technical validation
+      (../code/validation/03_signal_quality_check.py), which computes a per-channel
+      standard deviation across the full corpus, showed this produced a median std of
+      ~0.05 uV - two to three orders of magnitude below any physiologically plausible
+      scalp EEG signal (typically 10-50 uV) - indicating a unit-conversion error rather
+      than a genuine recording issue.
+    - Re-examination of the raw CSV values (not just their order of magnitude, but the
+      resulting per-channel standard deviation and its spatial distribution across the
+      scalp) established that the acquisition software already reports amplitude
+      directly in volts; no rescaling is needed before BIDS export. Recomputing with
+      this corrected assumption gives a corpus-wide median per-channel std of
+      48.97 uV, with the expected topography: lowest at central/parietal sites
+      (CP1, Pz, CP2, Cz: 24-27 uV) and highest at the frontopolar sites nearest the
+      eyes (Fp1, Fp2, Fpz: 101-106 uV, consistent with eye-blink/EOG contamination) -
+      both the magnitude and the spatial pattern now match established scalp EEG
+      literature, which the previous scaling did not.
+    - Only the numeric EEG sample values are affected. Event timing and labels
+      (_events.tsv), the TRIG/STATUS auxiliary channels, channel names, sampling rate,
+      and all dataset metadata (participants.tsv, channels.tsv,
+      dataset_description.json, etc.) are unchanged by this correction.
+    - See ../code/csv_to_bids.py for the corrected conversion script and
+      ../derivatives/validation/03_signal_quality_summary.csv for the per-recording,
+      per-channel signal-quality report computed on the corrected data.
+
+2.1.0 2026-09-30
+    - Metadata-only release: no EEG sample values changed. Technical validation
+      (../code/validation/07_bad_channels.py) identified scalp channels unusable for
+      the whole recording session of three participants (electrodes are placed once
+      per ~2 h session, so a genuine electrode problem persists across all of a
+      participant's recordings in the three sibling datasets). These channels are now
+      marked status=bad, with a status_description, in new recording-level
+      sub-XX_task-<task>_run-<run>_channels.tsv files (written by
+      ../code/validation/07b_write_bad_channels.py), which take precedence over the
+      dataset-wide channels.tsv for those recordings only:
+        - sub-11: FC1, FC2, C3 - gel bridge within the group with unstable contact;
+        - sub-12: F3, Fz, F4, FC1, FC2 - gel bridge within the group with unstable
+          contact;
+        - sub-14: Fz - high noise / poor contact.
+      Criteria: a gel bridge is a group of channels whose 30-45 Hz band-passed signals
+      correlate at r >= 0.985 in at least 75% of the participant's recordings and whose
+      0.5 Hz high-passed amplitude is at least 4x the corpus-wide median for those
+      channels; a noisy channel has a 1-45 Hz standard deviation at least 3x the median
+      of its four nearest neighbours in at least 75% of the participant's recordings.
+      Channels were not interpolated or removed: users may exclude or interpolate them
+      as suited to their analysis. See ../derivatives/validation/
+      07_bad_channels_proposal.csv and 07_bad_channels_per_recording.csv, and the
+      "Known data-quality issues" section of the README for borderline cases that were
+      deliberately not marked bad.
+
+2.2.0 2026-09-30
+    - Metadata-only release: no EEG sample values changed.
+    - channels.tsv (dataset-wide and the recording-level files introduced in 2.1.0)
+      gains a 'description' column. It documents that TRIG holds the raw TTL code
+      of the event-synchronisation system and that STATUS is the amplifier's
+      running sample counter, which continues across runs until the amplifier is
+      restarted and can therefore be used to recover the acquisition order and
+      the pauses between runs (../code/validation/09_timing_and_session.py,
+      ../derivatives/validation/09_session_runs.csv).
+    - README: new section "Acquisition order and session timeline", noting that
+      run numbers follow the source-file numbering and differ from the
+      acquisition order in sub-06, sub-24 and sub-26.
+
+2.2.1 2026-09-30
+    - Metadata-only release: no EEG sample values changed. Fixes from the official
+      BIDS validator (bids-validator 3.0.2), which now reports no errors:
+        - dataset_description.json: removed "Authors" (error: mutually exclusive
+          with CITATION.cff) and "License", "HowToAcknowledge" and
+          "ReferencesAndLinks" (single-source citation fields); authors, license
+          and citation message remain in CITATION.cff, to which the
+          ClinicalTrials.gov registration link was added under "identifiers".
+        - task-*_eeg.json: "MiscChannelCount" renamed to the correct key
+          "MISCChannelCount"; added "InstitutionalDepartmentName".
+
+2.2.2 2026-09-30
+    - TRIG and STATUS are now stored at resolution 1 (previously 0.1) in every
+      _eeg.vhdr, so the amplifier's STATUS sample counter is an exact integer in
+      all recordings. Previously, 6 recordings (sub-09, task-upper, runs 01-03 of
+      Dataset_B and Dataset_C; none in Dataset_A) held STATUS values off by a
+      fraction of a sample due to float32 precision at 0.1 resolution; their
+      STATUS values are now exact. EEG and TRIG values are unchanged in all 600
+      recordings of the three datasets (verified by reloading every recording
+      before and after the change).
+    - README and channels.tsv (dataset-wide and recording-level): removed the
+      now-unneeded instruction to round STATUS to the nearest integer.
+    - All files are now produced by ../code/csv_to_bids.py followed by
+      ../code/validation/07_bad_channels.py and 07b_write_bad_channels.py.
+
+2.3.0 2026-10-01
+    - Metadata-only release: no EEG, TRIG or STATUS values changed. Adds fields
+      recommended by the BIDS specification:
+        - dataset_description.json: "Funding" (UNER PID-UNER 6235; ANPCyT PICT
+          2017-4596) and "SourceDatasets" (../sourcedata, the original CSV exports).
+        - task-*_eeg.json: "SoftwareVersions" (OpenViBE 3.6.0 Acquisition Server with
+          the ANT Neuro eego driver, together with custom Python 3.12 acquisition
+          software), "DeviceSerialNumber" and "SubjectArtefactDescription"
+          ("n/a": no major artefact source other than blinks and cardiac activity).
+        - events.json: "StimulusPresentation" (custom Python software developed
+          in-house).
+        - One _eeg.json sidecar per recording (600 new files) holding its
+          "RecordingDuration" in seconds; all other fields are inherited from
+          task-*_eeg.json.
+
+2.3.1 2026-10-07
+    - Documentation-only release: no data files changed. README: the participants'
+      age was corrected from "28 +/- 6 years" to "28.8 +/- 7.0 years, range 21-43",
+      which is the mean, standard deviation and range of the 'age' column of
+      participants.tsv (unchanged).
+
+2.3.2 2026-10-11
+    - Validation-only release: no data or metadata files changed. Adds
+      ../code/validation/11_classification_controls.py and its outputs
+      (../derivatives/validation/11_classification_controls_results.csv and
+      11_classification_controls_summary.csv): controls for the decoding
+      benchmark of 10_classification_benchmark.py (later analysis window,
+      occipital channels only, ~18 Hz line not removed, and Dataset_A
+      subsampled to the trial count of Dataset_B and Dataset_C).
+
+2.4.0 2026-10-14
+    - Metadata-only release: no data files changed. Licence changed from CC0 1.0
+      to CC BY 4.0, the licence of the earlier release of these recordings
+      (https://doi.org/10.5281/zenodo.17980608, FIF format, December 2025), which
+      is now declared in README and CITATION.cff. This BIDS release is published
+      as a new version of that Zenodo deposit.
+    - Evoked-potential validation (../code/validation/04*): in Dataset_B and
+      Dataset_C the auditory evoked potential is now averaged over the movement
+      cues only, the only cues that carry the beep.
+
+2.5.0 2026-10-20
+    - Metadata-only release: no EEG or event files changed. task-*_eeg.json and
+      README now give the amplifier model (eego EE-212, 24-bit, DC-coupled) and the
+      cap (waveguard, passive Ag/AgCl electrodes).
+    - Dataset_A: the movement cues (arrows) were accompanied by the same 1,000 Hz,
+      100 ms beep used in Datasets B and C, as programmed in the stimulus script
+      (../code/stimulus_presentation/Task_1.py) and confirmed by an auditory N1-P2
+      response to movement but not rest cues (../code/validation/04d_*). The task
+      description previously described these cues as visual only.
+    - Stimuli added: stimuli/ in Dataset_A (cue images) and Dataset_C (mirror-
+      animation frames); stimulus-presentation scripts in ../code/stimulus_presentation/.
+    - Validation scripts added (../code/validation/): 00 (CSV vs BrainVision
+      round trip), 04d (auditory response in Dataset_A), 05d (beta rebound latency),
+      07c (gel bridges by electrical distance), 12 (horizontal eye movements, F7-F8);
+      05b now draws the measured median cue offset of each dataset.

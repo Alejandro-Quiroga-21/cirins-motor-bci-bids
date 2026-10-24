@@ -1,0 +1,12 @@
+# Python 3.12.1. Versions with which the released datasets were built and every
+# value of the Technical Validation was computed.
+# Install with:  python -m pip install -r requirements.txt
+mne==1.12.1
+pybv==0.8.1
+numpy==2.2.6
+scipy==1.14.1
+pandas==2.2.2
+scikit-learn==1.7.2
+pyriemann==0.12
+fooof==1.1.1
+matplotlib==3.11.1

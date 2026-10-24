@@ -1,0 +1,119 @@
+# Motor BCI Dataset - Dataset C (Simulated closed-loop)
+
+EEG recordings from 30 healthy volunteers performing the **closed-loop** stage of a
+simulated motor-rehabilitation BCI protocol with sham feedback, collected at the
+Centro de Ingeniería en Rehabilitación e Investigación Neuromusculares y Sensoriales
+(CIRINS), Facultad de Ingeniería, Universidad Nacional de Entre Ríos (FIUNER),
+Argentina.
+
+This is one of three sibling BIDS datasets from the same participants and the same
+~2-hour recording session; see `../Dataset_A` (calibration) and `../Dataset_B`
+(open-loop) for the other tasks, and the top-level `../README` for how the three
+relate.
+
+## Participants
+
+30 healthy volunteers (16 female, 14 male; mean age 28.8 ± 7.0 years, range 21–43) with no prior BCI
+experience. Lateral dominance (hand and foot) was assessed with an adapted Harris
+Test of Lateral Dominance before the session. See `participants.tsv`.
+
+## Task
+
+Performed with the dominant limb only (hand for `task-upper`, foot for `task-lower`),
+with sham feedback via a mirror animation. Each task has 3 runs. Event timing was
+characterised empirically from the released marker data (see
+`task-lower_eeg.json` / `task-upper_eeg.json` and the associated publication's
+Methods): movement cues measured 2.5-2.65 s (both limbs); the steady-state rest
+interval (rest-cue onset to next movement-cue onset, excluding the first rest of each
+run) measured 10.45 ± 0.30 s for the lower limb and 8.42 ± 0.38 s for the upper limb,
+consistent with the mirror animation (119 frames at 24 frames/s, 4.96 s, lower
+limb; 71 frames, 2.96 s, upper limb) preceding the programmed 5-6 s random rest.
+Movement onset was cued by the same 1,000 Hz, 100 ms beep as in Dataset B. The
+animation frames are in `stimuli/`. The first rest cue of each
+run is a shorter, fixed-duration cue (median ~3 s) rather than part of the randomised
+rest.
+
+The animation has no marker of its own in the acquisition exports. Each rest cue that
+follows a movement cue is therefore followed in `_events.tsv` by a `feedback` row with
+the same onset and the programmed animation length as duration (5 s lower limb, 3 s
+upper limb; 10 per run). To analyse stimulus-free rest, exclude the feedback interval
+from the rest interval. The feedback was not contingent on the EEG.
+
+## EEG acquisition
+
+32-channel EEG with passive Ag/AgCl electrodes (ANT Neuro waveguard cap, extended
+10-10 system), ANT Neuro eego amplifier (EE-212; 24-bit, DC-coupled),
+500 Hz sampling rate, CPz reference, AFz ground. An event-synchronisation system
+detected on-screen cue changes and generated TTL-triggered markers on the amplifier,
+preserved as `_events.tsv` files (trial_type: rest / left / right, plus feedback) and the auxiliary
+TRIG/STATUS channels described in `channels.tsv`.
+
+## Directory structure
+
+- `sub-<id>/eeg/` — BIDS-formatted EEG data (BrainVision format, `.vhdr/.eeg/.vmrk`)
+  and their per-run `_events.tsv` sidecars, split into `task-lower` (3 runs) and
+  `task-upper` (3 runs).
+- `channels.tsv`, `events.json` — dataset-wide sidecars (BIDS inheritance principle):
+  the 34-channel montage and sampling rate never change across runs.
+
+## Acquisition order and session timeline
+
+- **Run numbers follow the source-file numbering, not necessarily the acquisition
+  order.** Within a session the protocol was lower limb (Dataset_A, then B, then C)
+  followed by upper limb (A, B, C), but in three participants one run 3 was recorded
+  later than its number suggests, most likely a repeated run: `sub-06`
+  (Dataset_B, task-upper, run-03: last run of the session), `sub-24` (Dataset_B,
+  task-lower, run-03: after Dataset_C task-lower) and `sub-26` (Dataset_C,
+  task-lower, run-03: last run of the session).
+- **The STATUS channel is the amplifier's running sample counter** (see
+  `channels.tsv`). It continues across consecutive runs, so for runs recorded
+  without restarting the amplifier it gives their order and the pauses between
+  them; it restarts when the amplifier is restarted, which happened within the
+  session of 14 of the 30 participants. The recovered order, start time and
+  pause of every run are listed in `../derivatives/validation/09_session_runs.csv`.
+- Recorded EEG per participant totals ~50 min (Dataset_A ~25 min, B ~10 min,
+  C ~14 min); in the 16 participants with an uninterrupted counter, the first to
+  the last run spanned 60-119 min (median 70 min).
+
+## Known data-quality issues
+
+- **Bad channels.** `sub-11` (FC1, FC2, C3), `sub-12` (F3, Fz, F4, FC1, FC2) and
+  `sub-14` (Fz) have channels unusable for the whole session (gel bridges with
+  unstable contact, or high noise). They are marked `status=bad` in recording-level
+  `_channels.tsv` files (see `CHANGES`, 2.1.0); the EEG samples are unchanged.
+- **Borderline cases, not marked bad.** In `sub-11`, the channel pairs Fp1-Fpz and
+  Fz-F4, and the posterior group Pz/P4/POz/Oz/O2, are highly correlated at 30-45 Hz
+  but have normal amplitude; this participant shows strong, spatially broad muscle
+  (EMG) activity, the most likely cause. `sub-18` Fz has an elevated amplitude (~4.5x
+  the corpus median) without meeting either objective criterion. Several
+  participants show above-median high-frequency (EMG) activity.
+- **Narrowband ~18 Hz interference.** Most recordings (388/600, in 25/30
+  participants and all three datasets) contain a very narrow (<= 0.2 Hz wide)
+  spectral line between 16.6 and 19.9 Hz (median 18.4 Hz), stable within a
+  recording, without harmonics, and in phase on all channels (common mode entering
+  through the reference/ground). Its amplitude is small (median 0.42 uV, max 1.8 uV)
+  relative to the EEG, it is not locked to the 50 Hz mains, and its source is
+  instrumental/environmental. Per-recording frequency and amplitude are listed in
+  `../derivatives/validation/06_line_interference_18hz.csv` so it can be removed
+  (e.g. by sinusoid fitting at that frequency) where relevant.
+
+## Earlier release
+
+The same recordings were first released on Zenodo in December 2025
+(https://doi.org/10.5281/zenodo.17980608), as continuous 32-channel recordings of the
+30 participants in FIF format, together with a five-channel subset (Cz, C3, C4, Fz and
+Pz) of 24 participants. Those files were derived from the same acquisition exports
+that are kept in `sourcedata/`. This BIDS release is a new version of that deposit:
+same recordings, converted to BIDS directly from the original exports, with complete
+event annotations, metadata, technical validation and code. For new analyses it
+supersedes the earlier files.
+
+## License
+
+Creative Commons Attribution 4.0 International (CC BY 4.0). See `CITATION.cff`.
+
+## Ethics
+
+Approved by the Central Bioethics Committee of the Province of Entre Ríos, Argentina
+(Argentine National Registry of Health Research, IS004678). Registered at
+ClinicalTrials.gov (NCT06861517).

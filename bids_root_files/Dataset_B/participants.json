@@ -1,0 +1,27 @@
+{
+    "age": {
+        "Description": "Age of the participant at the time of the recording session",
+        "Units": "years"
+    },
+    "sex": {
+        "Description": "Sex assigned at birth, as self-reported by the participant",
+        "Levels": {
+            "female": "Female",
+            "male": "Male"
+        }
+    },
+    "handedness": {
+        "Description": "Upper-limb (hand) dominant laterality, assessed with an adapted version of the Harris Test of Lateral Dominance prior to the experimental session",
+        "Levels": {
+            "left": "Left-hand dominant",
+            "right": "Right-hand dominant"
+        }
+    },
+    "footedness": {
+        "Description": "Lower-limb (foot) dominant laterality, assessed with an adapted version of the Harris Test of Lateral Dominance prior to the experimental session",
+        "Levels": {
+            "left": "Left-foot dominant",
+            "right": "Right-foot dominant"
+        }
+    }
+}

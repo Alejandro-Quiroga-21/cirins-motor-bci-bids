@@ -1,0 +1,19 @@
+{
+    "trial_type": {
+        "Description": "Cue type presented to the participant at this event onset",
+        "Levels": {
+            "rest": "Rest cue",
+            "left": "Movement cue, left side (left hand for task-upper, left foot for task-lower)",
+            "right": "Movement cue, right side (right hand for task-upper, right foot for task-lower)"
+        }
+    },
+    "value": {
+        "Description": "Raw TTL trigger code recorded on the TRIG channel at the event onset sample"
+    },
+    "sample": {
+        "Description": "Onset of the event in samples, relative to the start of the recording"
+    },
+    "StimulusPresentation": {
+        "SoftwareName": "Custom Python stimulus-presentation software developed in-house (cue modality per dataset: see TaskDescription in task-*_eeg.json)"
+    }
+}

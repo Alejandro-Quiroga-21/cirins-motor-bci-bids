@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the dataset and the associated Scientific Data Descriptor."
+title: "cirins-motor-bci-bids: conversion and technical-validation code of the CIRINS Motor BCI EEG dataset"
+type: software
+license: MIT
+authors:
+  - family-names: "Quiroga-Forero"
+    given-names: "Alejandro"
+    affiliation: "Centro de Ingeniería en Rehabilitación e Investigación Neuromusculares y Sensoriales (CIRINS), Facultad de Ingeniería, Universidad Nacional de Entre Ríos, Oro Verde, Entre Ríos, Argentina; Instituto de Investigación en Señales, Sistemas e Inteligencia Computacional, sinc(i), FICH-UNL/CONICET, Santa Fe, Argentina"
+  - family-names: "Rufiner"
+    given-names: "H. Leonardo"
+    affiliation: "Laboratorio de Cibernética, Facultad de Ingeniería, Universidad Nacional de Entre Ríos, Oro Verde, Entre Ríos, Argentina; Instituto de Investigación en Señales, Sistemas e Inteligencia Computacional, sinc(i), FICH-UNL/CONICET, Santa Fe, Argentina"
+  - family-names: "Acevedo"
+    given-names: "Ruben"
+    affiliation: "Centro de Ingeniería en Rehabilitación e Investigación Neuromusculares y Sensoriales (CIRINS), Facultad de Ingeniería, Universidad Nacional de Entre Ríos, Oro Verde, Entre Ríos, Argentina"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.17980607"
+    description: "Zenodo deposit of the dataset (all versions)"

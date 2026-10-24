@@ -1,0 +1,24 @@
+{
+    "trial_type": {
+        "Description": "Cue type presented to the participant at this event onset (rest, left, right), or the sham-feedback mirror animation (feedback)",
+        "Levels": {
+            "rest": "Rest cue. After a movement cue, the rest interval starts with the sham-feedback animation (see 'feedback'); the stimulus-free rest starts when the animation ends",
+            "left": "Movement cue, left side (left hand for task-upper, left foot for task-lower)",
+            "right": "Movement cue, right side (right hand for task-upper, right foot for task-lower)",
+            "feedback": "Sham-feedback mirror animation of the instructed movement, not contingent on the EEG. It starts at the onset of the rest cue that follows each movement cue (same onset and sample) and lasts the programmed time: 5 s for task-lower, 3 s for task-upper. Its onset is that of the rest cue and its duration is programmed, not measured; it has no TTL code (value n/a) and no marker in the .vmrk file"
+        }
+    },
+    "duration": {
+        "Description": "For cue rows (rest, left, right): measured time to the next cue onset (n/a for the last cue of a run). For feedback rows: programmed duration of the animation",
+        "Units": "s"
+    },
+    "value": {
+        "Description": "Raw TTL trigger code recorded on the TRIG channel at the event onset sample (n/a for feedback rows, which have no trigger of their own)"
+    },
+    "sample": {
+        "Description": "Onset of the event in samples, relative to the start of the recording"
+    },
+    "StimulusPresentation": {
+        "SoftwareName": "Custom Python stimulus-presentation software developed in-house (cue modality per dataset: see TaskDescription in task-*_eeg.json)"
+    }
+}

@@ -22,7 +22,7 @@ the Zenodo deposit, then put this repository in place of its `code/` folder:
     ├── derivatives/
     └── code/        <- this repository
 
-for example with `git clone https://github.com/<user>/cirins-motor-bci-bids code`
+for example with `git clone https://github.com/Alejandro-Quiroga-21/cirins-motor-bci-bids code`
 inside the extracted deposit.
 
 ## License

@@ -1,0 +1,2 @@
+# Dataset-level files are copied verbatim into the BIDS datasets: keep their exact bytes.
+bids_root_files/** -text
